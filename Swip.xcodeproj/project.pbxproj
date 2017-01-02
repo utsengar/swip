@@ -193,6 +193,7 @@
 				TargetAttributes = {
 					BF8B57311E0DB23C00602E74 = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					BF8B57451E0DB23D00602E74 = {
@@ -503,6 +504,7 @@
 				BF8B575C1E0DB23D00602E74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BF8B575D1E0DB23D00602E74 /* Build configuration list for PBXNativeTarget "SwipTests" */ = {
 			isa = XCConfigurationList;
@@ -511,6 +513,7 @@
 				BF8B575F1E0DB23D00602E74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BF8B57601E0DB23D00602E74 /* Build configuration list for PBXNativeTarget "SwipUITests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +522,7 @@
 				BF8B57621E0DB23D00602E74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
