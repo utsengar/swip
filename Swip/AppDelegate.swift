@@ -26,6 +26,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Set translucent. (Default value is already true, so this can be removed if desired.)
         UINavigationBar.appearance().isTranslucent = true
         
+        let defaults = UserDefaults.standard
+        if !defaults.bool(forKey: "USERDEFAULT_IS_INITIALIZED") {
+            defaults.set(0.10, forKey: "tip1")
+            defaults.set(0.20, forKey: "tip2")
+            defaults.set(0.25, forKey: "tip3")
+            defaults.set(true, forKey: "USERDEFAULT_IS_INITIALIZED")
+
+            defaults.synchronize()
+        }
+        
         return true
     }
 

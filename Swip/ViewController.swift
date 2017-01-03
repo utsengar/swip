@@ -17,46 +17,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var tenLabel: UILabel!
     @IBOutlet weak var twentyLabel: UILabel!
     @IBOutlet weak var twentyFiveLabel: UILabel!
-
-    var currentTipValue = 0.10;
+    let defaults = UserDefaults.standard
+    var currentTipValue = 0.0;
     
     override func viewDidLoad() {
         super.viewDidLoad()
         billField.becomeFirstResponder()
-        twentyLabel.isHidden = true
-        twentyFiveLabel.isHidden = true
-        
-        let textFieldAppearance = UITextField.appearance()
-        textFieldAppearance.keyboardAppearance = .alert //.default//.light//.alert
-        
-        setGradientBackground()
-        let numberToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50))
-        numberToolbar.barStyle = UIBarStyle.default
-        numberToolbar.backgroundColor = UIColor.black
-        let ten = UIBarButtonItem(title: "10%", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.tenTapped(_:)))
-        ten.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 8.0/255.0, green: 159.0/255.0, blue: 82.0/255.0, alpha: 1.0)], for: UIControlState.normal)
-        
-        let twenty = UIBarButtonItem(title: "20%", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.twentyTapped(_:)))
-        twenty.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 8.0/255.0, green: 159.0/255.0, blue: 82.0/255.0, alpha: 1.0)], for: UIControlState.normal)
-        
-        let twentyFive = UIBarButtonItem(title: "25%", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.twentyFiveTapped(_:)))
-        twentyFive.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 8.0/255.0, green: 159.0/255.0, blue: 82.0/255.0, alpha: 1.0)], for: UIControlState.normal)
-        
-        let first = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
-        first.width = 30
-        let last = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
-        last.width = 30
-
-        numberToolbar.items = [first,
-                               ten,
-                               UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
-                               twenty,
-                               UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
-                               twentyFive,
-                               last]
-        
-        numberToolbar.sizeToFit()
-        billField.inputAccessoryView = numberToolbar
+        drawToolbar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated) // No need for semicolon
+        drawToolbar()
     }
 
     override func didReceiveMemoryWarning() {
@@ -95,25 +67,65 @@ class ViewController: UIViewController {
         self.view.layer.insertSublayer(gradientLayer, at: 0)
     }
     
-    func tenTapped(_ val: UIBarButtonItem) {
-        currentTipValue = 0.10;
+    func tip1Tapped(_ val: UIBarButtonItem) {
+        currentTipValue = defaults.double(forKey: "tip1");
         tenLabel.isHidden = false
         twentyLabel.isHidden = true
         twentyFiveLabel.isHidden = true
         calculateTip(val)
     }
-    func twentyTapped(_ val: UIBarButtonItem) {
-        currentTipValue = 0.20;
+    func tip2Tapped(_ val: UIBarButtonItem) {
+        currentTipValue = defaults.double(forKey: "tip2");
         tenLabel.isHidden = true
         twentyLabel.isHidden = false
         twentyFiveLabel.isHidden = true
         calculateTip(val)
     }
-    func twentyFiveTapped(_ val: UIBarButtonItem) {
-        currentTipValue = 0.25;
+    func tip3Tapped(_ val: UIBarButtonItem) {
+        currentTipValue = defaults.double(forKey: "tip3");
         tenLabel.isHidden = true
         twentyLabel.isHidden = true
         twentyFiveLabel.isHidden = false
         calculateTip(val)
+    }
+    
+    func drawToolbar(){
+        currentTipValue = defaults.double(forKey: "tip1")
+        twentyLabel.isHidden = true
+        twentyFiveLabel.isHidden = true
+        let textFieldAppearance = UITextField.appearance()
+        textFieldAppearance.keyboardAppearance = .alert //.default//.light//.alert
+        
+        setGradientBackground()
+        let numberToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50))
+        numberToolbar.barStyle = UIBarStyle.default
+        numberToolbar.backgroundColor = UIColor.black
+        let tip1Orig = defaults.double(forKey: "tip1")
+        let tip1 = UIBarButtonItem(title: String(Int(tip1Orig * 100)) + "%", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.tip1Tapped(_:)))
+        tip1.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 8.0/255.0, green: 159.0/255.0, blue: 82.0/255.0, alpha: 1.0)], for: UIControlState.normal)
+        
+        let tip2Orig = defaults.double(forKey: "tip2")
+        let tip2 = UIBarButtonItem(title: String(Int(tip2Orig * 100)) + "%", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.tip2Tapped(_:)))
+        tip2.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 8.0/255.0, green: 159.0/255.0, blue: 82.0/255.0, alpha: 1.0)], for: UIControlState.normal)
+        
+        let tip3Orig = defaults.double(forKey: "tip3")
+        let tip3 = UIBarButtonItem(title: String(Int(tip3Orig * 100)) + "%", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.tip3Tapped(_:)))
+        tip3.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 8.0/255.0, green: 159.0/255.0, blue: 82.0/255.0, alpha: 1.0)], for: UIControlState.normal)
+        
+        let first = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+        first.width = 30
+        let last = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+        last.width = 30
+        
+        numberToolbar.items = [first,
+                               tip1,
+                               UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+                               tip2,
+                               UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+                               tip3,
+                               last]
+        
+        numberToolbar.sizeToFit()
+        billField.inputAccessoryView = numberToolbar
     }
 }
